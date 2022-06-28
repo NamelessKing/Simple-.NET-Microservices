@@ -6,6 +6,9 @@
         public int Port { get; init; }
         public string Username { get; init; }
         public string Password { get; init; }
-        public string ConnectionString => $"mongodb://{Username}:{Password}@{Host}:{Port}";
+        public bool Authentication { get; set; }
+        public string ConnectionStringWithAuth => $"mongodb://{Username}:{Password}@{Host}:{Port}";
+        public string ConnectionString => $"mongodb://{Host}:{Port}";
     }
 }
+//mongodb://localhost:55002/

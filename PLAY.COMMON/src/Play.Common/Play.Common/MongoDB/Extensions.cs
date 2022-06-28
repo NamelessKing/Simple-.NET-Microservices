@@ -22,8 +22,19 @@ namespace Play.Common.MongoDB
 
                 var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                 var mongoDbSettings = configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
-                var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
-                return mongoClient.GetDatabase(serviceSettings.ServiceName);
+
+                if (mongoDbSettings.Authentication)
+                {
+                    var mongoClient = new MongoClient(mongoDbSettings.ConnectionStringWithAuth);
+                    return mongoClient.GetDatabase(serviceSettings.ServiceName);
+                }
+                else
+                {
+                    var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
+                    return mongoClient.GetDatabase(serviceSettings.ServiceName);
+                }
+
+                
             });
 
             return services;
